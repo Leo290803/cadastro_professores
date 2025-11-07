@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Professores Cadastrados</title>
+    <style>
+        /* Estilos básicos */
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        h2 { border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; }
+        .foto-perfil {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        .tabela {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .tabela th, .tabela td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .tabela th {
+            background-color: #333;
+            color: white;
+        }
+        .tabela tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .btn-acao {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: none;
+            color: white;
+            display: inline-block;
+        }
+        .btn-danger { background-color: #dc3545; }
+        .btn-info { background-color: #17a2b8; color: white; margin-bottom: 15px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Professores Cadastrados (Gestão)</h2>
+        
+        <p>
+            <a href="{{ url_for('index') }}" class="btn-acao btn-info">← Novo Cadastro</a>
+        </p>
+
+        {% if professores %}
+        <div>
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Foto</th>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Escola</th>
+                        <th>ID BD</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for professor in professores %}
+                    <tr>
+                        <td>
+                            <img src="{{ professor.url_foto }}" alt="Foto de {{ professor.nome }}" class="foto-perfil">
+                        </td>
+                        <td>{{ professor.nome }}</td>
+                        <td>{{ professor.cpf }}</td>
+                        <td>{{ professor.escola_nome }}</td>
+                        <td>{{ professor.id }}</td>
+                        
+                        <td>
+                            <a href="{{ url_for('excluir_professor', professor_id=professor.id) }}" 
+                               class="btn-acao btn-danger"
+                               onclick="return confirm('ATENÇÃO: Tem certeza que deseja EXCLUIR permanentemente o cadastro de {{ professor.nome }}? A foto também será deletada da subpasta do Município.')">
+                                Excluir
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="alerta alerta-info" style="display: block;">
+            Nenhum professor foi cadastrado ainda.
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>
