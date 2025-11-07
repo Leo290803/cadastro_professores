@@ -258,5 +258,7 @@ if __name__ == '__main__':
     # Cria o banco de dados e as tabelas (somente se não existirem)
     with app.app_context():
         db.create_all()
-        
+        # NOVO: Código para garantir que as tabelas sejam criadas no Render
+with app.app_context():
+    db.create_all()
     app.run(debug=True)
