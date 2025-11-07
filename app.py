@@ -255,8 +255,6 @@ if __name__ == '__main__':
     if not os.path.exists(app.config['UPLOAD_FOLDER']):
         os.makedirs(app.config['UPLOAD_FOLDER'])
     
-    # Cria o banco de dados e as tabelas (somente se não existirem)
-    with app.app_context():
-        db.create_all()
-        
+    # CÓDIGO LIMPO PARA PRODUÇÃO: db.create_all() foi removido daqui!
+    
     app.run(debug=True)
